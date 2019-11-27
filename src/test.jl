@@ -18,4 +18,14 @@ for kpart = 1:200
     end
 end
 
+using PBCHandler2D
+Face_all,Face_all_Normal = AllFaceGet(NodeDict,ElemDict);
+obtainnodesinelset(Face_all[:,1],ElsetDict["CF1"])
+
+faceloc = findall(MatrixSwitch)
+
+
+
+# nodesshared = findsharednodes(ElemDict,MatrixElemsID,ElsetDict["CF$(1)"])
+
 
