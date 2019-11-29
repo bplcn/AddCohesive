@@ -1,10 +1,30 @@
-function addcohesive_2d(NodeDict,ElemDict,ElsetPartsArray,ElsetMatrix)
+function addcohesive_2d(NodeDict,ElemDict,ElsetPart::Array{Int64,1},ElsetMatrix::Array{Int64,1})
 #=
 The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
-=#
-    
+=#  
+
     return 
 end
+
+function addcohesive_2d(NodeDict,ElemDict,ElsetPartsArray::Array{Array{Int64,1},1})
+#=
+    The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
+=#
+    npart = length(ElsetPartsArray);
+    Face_all,Face_all_Normal = AllFaceGet(NodeDict,ElemDict);
+    
+    for kpart = 1:npart
+        ElsetPart = ElsetPartsArray[kpart];
+        faceloc = obtainnodesinelset(Face_all[:,1],ElsetPart)
+    end
+
+    
+    
+
+    return 
+end
+
+
 
 function findsharednodes(ElemDict,Elset1,Elset2)
 #=
