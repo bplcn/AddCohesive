@@ -1,8 +1,8 @@
-function addcohesive_2d()
+function addcohesive_2d(NodeDict,ElemDict,ElsetPartsArray,ElsetMatrix)
 #=
 The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#
-
+    
     return 
 end
 
