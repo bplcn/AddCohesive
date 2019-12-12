@@ -1,4 +1,4 @@
-function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},ElsetPartsArray::Array{Array{Int64,1},1},ElsetMatrix::Array{Int64,1})
+function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},ElsetPartsArray,ElsetMatrix)
 #=
     The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#
@@ -12,7 +12,7 @@ function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},ElsetPa
     return NodeOld2NewDict
 end
 
-function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},NodeOld2NewDict,ElsetPart::Array{Int64,1},ElsetMatrix::Array{Int64,1}; Face_all = [])
+function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},NodeOld2NewDict,ElsetPart,ElsetMatrix; Face_all = [])
 #=
 The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#  
@@ -21,8 +21,8 @@ The function addcohesive_2d return the new cohesive elements in the dicts and th
     FaceHere = Face_all[faceloc,:];
     
     # update the elem&node info
-    NodebeenModified = collect(NodeOld2NewDict);
-    buildcohesive! = buildcohesive!(NodeDict,ElemDict,NodeOld2NewDict,FaceHere);
+    NodebeenModified = collect(keys(NodeOld2NewDict));
+    buildcohesive!(NodeDict,ElemDict,NodeOld2NewDict,FaceHere);
     NodeModified = setdiff(collect(NodeOld2NewDict),NodebeenModified);
 
     # replace the modified nodes
