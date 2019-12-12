@@ -1,29 +1,53 @@
-function addcohesive_2d(NodeDict,ElemDict,ElsetPart::Array{Int64,1},ElsetMatrix::Array{Int64,1})
+function addcohesive_2d!(NodeDict,ElemDict,ElsetPart::Array{Int64,1},ElsetMatrix::Array{Int64,1};Face_all)
 #=
 The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#  
+    
+    faceloc = obtainfaceonelset(Face_all[:,1],ElsetPart);
+    FaceHere = Face_all[faceloc,:];
+    buildcohesive! = buildcohesive!(NodeDict,ElemDict,FaceHere);
+    
+end
 
-    return 
+function buildcohesive!(NodeDict,ElemDict,FaceHere)
+#=
+  build cohesive 
+=# 
+    nodeidnow = maximum(keys(NodeDict))+1;
+    elemidnow = maximum(keys(ElemDict))+1;
+
+    nface = size(FaceHere,1)
+    for kface = 1:nface
+        node1 = FaceHere[kface,3];
+        node2 = FaceHere[kface,4];
+
+        node3 = nodeidnow;
+        nodeidnow += 1;
+        NodeDict[node3] = NodeDict[node2];
+
+        node4 = nodeidnow;
+        nodeidnow += 1;
+        NodeDict[node4] = NodeDict[node1];
+
+        ElemDict[elemidnow] = [node1;node2;node3;node4];
+    end
+
 end
 
 function addcohesive_2d(NodeDict,ElemDict,ElsetPartsArray::Array{Array{Int64,1},1})
 #=
     The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#
-    npart = length(ElsetPartsArray);
+    npart = length(ElsetPartsArray);    # obtain total number of element sets
     Face_all,Face_all_Normal = AllFaceGet(NodeDict,ElemDict);
     
-    for kpart = 1:npart
-        ElsetPart = ElsetPartsArray[kpart];
-        faceloc = obtainnodesinelset(Face_all[:,1],ElsetPart)
-    end
+    
 
     
     
 
     return 
 end
-
 
 
 function findsharednodes(ElemDict,Elset1,Elset2)
@@ -48,16 +72,17 @@ The function return the nodes belong to the Elset.
     return unique(NodesID)
 end
 
-function obtainnodesinelset(Face_all,Elset)
+function obtainfaceonelset(Face_all,Elset)
 #=
-The function obtainnodesinelset obtain the all faces in the Elset.
+    The function obtain the all faces location in Face_all attached to the given Elset.
 =#
     facetotal = size(Face_all,1);
     BlSwitch = zeros(Bool,facetotal);
-    @time Threads.@threads for kface = 1:facetotal
+    Threads.@threads for kface = 1:facetotal
         if in(Face_all[kface,1],Elset)
             BlSwitch[kface] = true;
         end
     end
     return findall(BlSwitch)
+
 end
