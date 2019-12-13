@@ -3,21 +3,28 @@ function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},ElsetPa
     The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#
     npart = length(ElsetPartsArray);    # obtain total number of element sets
+    NodesinMatrix = obtainnodes(ElemDict,ElsetMatrix);
+
     Face_all,Face_all_Normal = AllFaceGet(NodeDict,ElemDict);
     NodeOld2NewDict = Dict();
     @inbounds @simd for kpart = 1:npart
-        addcohesive_2d!(NodeDict,ElemDict,NodeOld2NewDict,ElsetPartsArray[kpart],ElsetMatrix,Face_all=Face_all);
+        addcohesive_2d!(NodeDict,ElemDict,NodeOld2NewDict,ElsetPartsArray[kpart],ElsetMatrix,Face_all=Face_all,NodesinMatrix=NodesinMatrix);
     end
-        
+    
     return NodeOld2NewDict
 end
 
-function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},NodeOld2NewDict,ElsetPart,ElsetMatrix; Face_all = [])
+function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},NodeOld2NewDict,ElsetPart,ElsetMatrix;Face_all,NodesinMatrix)
 #=
 The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#  
+    if length(NodesinMatrix) == 0
+        NodesinMatrix = obtainnodes(ElemDict,ElsetMatrix);
+    end
     
     faceloc = obtainfaceonelset(Face_all[:,1],ElsetPart);
+    FaceinPart = Face_all[faceloc,:]
+    faceloc = obtainfacehavenodes(FaceinPart,ElemDict,NodesinSet=NodesinMatrix)
     FaceHere = Face_all[faceloc,:];
     
     # update the elem&node info
@@ -34,7 +41,6 @@ The function addcohesive_2d return the new cohesive elements in the dicts and th
             end
         end
     end
-
 end
 
 function buildcohesive!(NodeDict,ElemDict,NodeOld2NewDict,FaceHere)
@@ -94,6 +100,32 @@ function obtainfaceonelset(Face_all,Elset)
     BlSwitch = zeros(Bool,facetotal);
     Threads.@threads for kface = 1:facetotal
         if in(Face_all[kface,1],Elset)
+            BlSwitch[kface] = true;
+        end
+    end
+    return findall(BlSwitch)
+
+end
+
+function obtainfacehavenodes(Facehere,ElemDict;Elset)
+#=
+    The function obtainfacehavenodes return all the face which have nodes in Elset
+=#
+    NodesinSet = obtainnodes(ElemDict,Elset);
+    return obtainfacehavenodes(Facehere,ElemDict,NodesinSet)
+
+end
+
+function obtainfacehavenodes(Facehere,ElemDict;NodesinSet)
+#=
+    The function obtainfacehavenodes return all the face which have nodes in Elset
+=#
+        # NodesinSet = obtainnodes(ElemDict,Elset);
+
+    nface = size(Facehere,1);
+    BlSwitch = zeros(Bool,nface);
+    Threads.@threads for kface in 1:nface
+        if in(Facehere[kface,3],NodesinSet) && in(Facehere[kface,4],NodesinSet)
             BlSwitch[kface] = true;
         end
     end
