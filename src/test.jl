@@ -1,11 +1,12 @@
 using AbaAccess
+using PBCHandler2D
 # obtain the mesh information
 # try
 #     include("addcohesive.jl")
 # catch
 #     include("src/addcohesive.jl")
 # end
-include("addcohesive.jl")
+include("addcohfunctions.jl")
 
 InpName = "D:/Abaqus_Temp/temp_near_26nov.inp";
 NodeDict,ElemDict,NsetDict,ElsetDict = MeshObtain(InpName);
@@ -28,10 +29,8 @@ for kpart = 1:200
     end
 end
 
-using PBCHandler2D
-# Face_all,Face_all_Normal = AllFaceGet(NodeDict,ElemDict);
 
-@time NodeOld2NewDict = addcohesive_2d!(NodeDict,ElemDict,ElsetPartsArray,ElsetMatrix);
+@time NodeOld2NewDict = addcohesive_2d_all!(NodeDict,ElemDict,ElsetDict,ElsetPartsArray,ElsetMatrix);
 
 InpName = "D:/Abaqus_temp/addcohesive_2d_test.inp"
 fID = open(InpName,"w");
