@@ -1,23 +1,2 @@
 # This file is machine-generated - editing it directly is not advised
 
-[[AbaAccess]]
-git-tree-sha1 = "8b6f6dce81be354c72929a11c4b6e1da62c1b4f2"
-repo-rev = "master"
-repo-url = "https://github.com/bplcn/AbaAccess.jl"
-uuid = "6e8b200b-fdab-5192-85fd-6bcf653cce18"
-version = "0.0.0"
-
-[[Libdl]]
-uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
-
-[[LinearAlgebra]]
-deps = ["Libdl"]
-uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-
-[[PBCHandler2D]]
-deps = ["LinearAlgebra"]
-git-tree-sha1 = "600d2cd86d81687a819d74a59003d78a10dc0721"
-repo-rev = "master"
-repo-url = "https://github.com/bplcn/PBCHandler2D.jl"
-uuid = "d0de8d5f-2a8c-56fb-922a-ca075a082552"
-version = "0.0.0"

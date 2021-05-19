@@ -2,7 +2,3 @@ name = "AddCohesive"
 uuid = "637523a5-1220-4e10-81c8-a13a5f096d82"
 authors = ["BIAN, Peiliang <47040923+bplcn@users.noreply.github.com>"]
 version = "0.1.0"
-
-[deps]
-AbaAccess = "6e8b200b-fdab-5192-85fd-6bcf653cce18"
-PBCHandler2D = "d0de8d5f-2a8c-56fb-922a-ca075a082552"
