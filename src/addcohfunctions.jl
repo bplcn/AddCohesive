@@ -1,4 +1,4 @@
-function addcohesive_2d_all!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},ElsetDict,ElsetPartsArray,ElsetMatrix)
+function addcohesive_2d_all!(NodeDict,ElemDict,ElsetDict,ElsetPartsArray,ElsetMatrix)
 #=
     The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#
@@ -17,7 +17,7 @@ function addcohesive_2d_all!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},Els
     return NodeOld2NewDict
 end
 
-function addcohesive_2d!(NodeDict::Dict{Any,Any},ElemDict::Dict{Any,Any},NodeOld2NewDict,ElsetPart,ElsetMatrix;Face_all,NodesinMatrix)
+function addcohesive_2d!(NodeDict,ElemDict,NodeOld2NewDict,ElsetPart,ElsetMatrix;Face_all,NodesinMatrix)
 #=
 The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
 =#  
