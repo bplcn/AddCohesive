@@ -38,6 +38,7 @@ The function addcohesive_2d return the new cohesive elements in the dicts and th
     # replace the modified nodes
     Threads.@threads for elemid in ElsetMatrix
         Nodeshere = copy(ElemDict[elemid]);
+        # @inbounds @simd for knode in 1:length(Nodeshere)
         @inbounds @simd for knode in 1:length(Nodeshere)
             if Nodeshere[knode] in NodeModified
                 ElemDict[elemid][knode] = NodeOld2NewDict[Nodeshere[knode]];

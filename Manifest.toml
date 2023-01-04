@@ -1,2 +1,45 @@
 # This file is machine-generated - editing it directly is not advised
 
+julia_version = "1.8.2"
+manifest_format = "2.0"
+project_hash = "3a7a2c32bbdf30ae07c4ece4aa658b955e364098"
+
+[[deps.AbaAccess]]
+git-tree-sha1 = "480da0f5cb33f5028c638faa42aefb117d831156"
+repo-rev = "master"
+repo-url = "https://github.com/bplcn/AbaAccess.jl"
+uuid = "8479c776-2ae4-43bb-a37b-f3f4d529e7ed"
+version = "0.9.0"
+
+[[deps.Artifacts]]
+uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+
+[[deps.CompilerSupportLibraries_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
+version = "0.5.2+0"
+
+[[deps.Libdl]]
+uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
+
+[[deps.LinearAlgebra]]
+deps = ["Libdl", "libblastrampoline_jll"]
+uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[[deps.OpenBLAS_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
+uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+version = "0.3.20+0"
+
+[[deps.PBCHandler2D]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "8644a59995894e3b7c09d9e76466d5d1ea70e760"
+repo-rev = "master"
+repo-url = "https://github.com/bplcn/PBCHandler2D.jl"
+uuid = "acb561f5-f97e-4a81-845f-7fe2b6e46703"
+version = "0.1.0"
+
+[[deps.libblastrampoline_jll]]
+deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.1.1+0"
