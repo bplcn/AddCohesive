@@ -4,5 +4,4 @@ authors = ["bplcn <bplcn@163.com>"]
 version = "0.1.0"
 
 [deps]
-AbaAccess = "8479c776-2ae4-43bb-a37b-f3f4d529e7ed"
 PBCHandler2D = "acb561f5-f97e-4a81-845f-7fe2b6e46703"

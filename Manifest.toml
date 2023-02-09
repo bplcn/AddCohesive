@@ -2,14 +2,7 @@
 
 julia_version = "1.8.2"
 manifest_format = "2.0"
-project_hash = "3a7a2c32bbdf30ae07c4ece4aa658b955e364098"
-
-[[deps.AbaAccess]]
-git-tree-sha1 = "480da0f5cb33f5028c638faa42aefb117d831156"
-repo-rev = "master"
-repo-url = "https://github.com/bplcn/AbaAccess.jl"
-uuid = "8479c776-2ae4-43bb-a37b-f3f4d529e7ed"
-version = "0.9.0"
+project_hash = "27fb4baf4390c19d8a415dcbd1ea46b40b7fb983"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
