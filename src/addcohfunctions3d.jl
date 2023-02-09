@@ -89,9 +89,9 @@ function buildcohesive3d!(NodeDict,ElemDict,NodeOld2NewDict,FaceHere)
 
     nface = size(FaceHere,1)
     for kface = 1:nface
-        node1 = FaceHere[kface,4];
-        node2 = FaceHere[kface,5];
-        node3 = FaceHere[kface,6];
+        node1 = FaceHere[kface,3];
+        node2 = FaceHere[kface,4];
+        node3 = FaceHere[kface,5];
         if node1 in keys(NodeOld2NewDict)
             node4 = NodeOld2NewDict[node1];
         else
