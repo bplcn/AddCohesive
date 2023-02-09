@@ -2,6 +2,3 @@ name = "AddCohesive"
 uuid = "ccca1af2-0cf1-450f-a2d0-5e343c7a63ab"
 authors = ["bplcn <bplcn@163.com>"]
 version = "0.1.0"
-
-[deps]
-PBCHandler2D = "acb561f5-f97e-4a81-845f-7fe2b6e46703"

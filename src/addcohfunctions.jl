@@ -1,3 +1,42 @@
+function AllFaceGet(NodeDict,ElemDict)
+
+    ElemIDArray = collect(keys(ElemDict))
+    elemtotal = length(ElemIDArray)
+
+    Face_1_all = zeros(Int64,elemtotal,4);
+    Face_2_all = zeros(Int64,elemtotal,4);
+    Face_3_all = zeros(Int64,elemtotal,4);
+    Face_4_all = zeros(Int64,elemtotal,4);
+
+    Threads.@threads for kelem = 1:elemtotal
+        #
+        elemID = ElemIDArray[kelem];
+        #=
+            4          3
+            C - 3 - B
+            |       |
+            4       2
+            |       |
+            D - 1 - A
+            1          2
+        =#
+        node1 = ElemDict[elemID][1];
+        node2 = ElemDict[elemID][2];
+        node3 = ElemDict[elemID][3];
+        node4 = ElemDict[elemID][4];
+
+        Face_1_all[kelem,:] = [elemID 1 node1 node2];
+        Face_2_all[kelem,:] = [elemID 2 node2 node3];
+        Face_3_all[kelem,:] = [elemID 3 node3 node4];
+        Face_4_all[kelem,:] = [elemID 4 node4 node1];
+    end
+
+    Face_all = [Face_1_all;Face_2_all;Face_3_all;Face_4_all];
+
+    return Face_all
+end
+
+
 function addcohesive_2d_all!(NodeDict,ElemDict,ElsetDict,ElsetPartsArray,ElsetMatrix)
 #=
     The function addcohesive_2d return the new cohesive elements in the dicts and the mapping dictionary between old and new nodes.
@@ -5,7 +44,7 @@ function addcohesive_2d_all!(NodeDict,ElemDict,ElsetDict,ElsetPartsArray,ElsetMa
     npart = length(ElsetPartsArray);    # obtain total number of element sets
     NodesinMatrix = obtainnodes(ElemDict,ElsetMatrix);
     
-    Face_all,Face_all_Normal = AllFaceGet(NodeDict,ElemDict);
+    Face_all = AllFaceGet(NodeDict,ElemDict);
     NodeOld2NewDict = Dict();
     @inbounds @simd for kpart = 1:npart
         ElemIDOld = collect(keys(ElemDict));
@@ -80,67 +119,4 @@ function buildcohesive!(NodeDict,ElemDict,NodeOld2NewDict,FaceHere)
         elemidnow +=1
     end
     
-end
-
-function findsharednodes(ElemDict,Elset1,Elset2)
-#=
-The function return the nodes shared by the inclusions Elset1 and matrix Elset2.
-=#  
-    Nset1 = obtainnodes(ElemDict,Elset1);
-    Nset2 = obtainnodes(ElemDict,Elset2);
-
-    return intersect(Nset1,Nset2);
-
-end
-
-function obtainnodes(ElemDict,Elset)
-#=
-The function return the nodes belong to the Elset.
-=#
-    NodesID = [];
-    @inbounds @simd for elemid in Elset
-        append!(NodesID,ElemDict[elemid]);
-    end
-    return unique(NodesID)
-end
-
-function obtainfaceonelset(Face_all,Elset)
-#=
-    The function obtain the all faces location in Face_all attached to the given Elset.
-=#
-    facetotal = size(Face_all,1);
-    BlSwitch = zeros(Bool,facetotal);
-    Threads.@threads for kface = 1:facetotal
-        if in(Face_all[kface,1],Elset)
-            BlSwitch[kface] = true;
-        end
-    end
-    return findall(BlSwitch)
-
-end
-
-function obtainfacehavenodes(Facehere,ElemDict;Elset)
-#=
-    The function obtainfacehavenodes return all the face which have nodes in Elset
-=#
-    NodesinSet = obtainnodes(ElemDict,Elset);
-    return obtainfacehavenodes(Facehere,ElemDict,NodesinSet)
-
-end
-
-function obtainfacehavenodes(Facehere,ElemDict;NodesinSet)
-#=
-    The function obtainfacehavenodes return all the face which have nodes in Elset
-=#
-        # NodesinSet = obtainnodes(ElemDict,Elset);
-
-    nface = size(Facehere,1);
-    BlSwitch = zeros(Bool,nface);
-    Threads.@threads for kface in 1:nface
-        if in(Facehere[kface,3],NodesinSet) && in(Facehere[kface,4],NodesinSet)
-            BlSwitch[kface] = true;
-        end
-    end
-    return findall(BlSwitch)
-
 end
